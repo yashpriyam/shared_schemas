@@ -81,3 +81,23 @@ export const portalSequelize = new Sequelize({
   dialect: "postgres",
   models: portalModels,
 });
+
+portalSequelize.addModels(portalModels);
+
+portalSequelize
+  .sync({ force: true }) // or sequelize.sync()
+  .then(() => {
+    console.log("Database & tables created!");
+  })
+  .catch((error) => {
+    console.error("Error syncing the database:", error);
+  });
+
+console.log(
+  "Registered Models:",
+  portalSequelize.modelManager.models.map((model) => model.name)
+);
+
+if (!portalSequelize.isDefined("IndicesAppSentinelFormulas")) {
+  console.error("Model IndicesAppSentinelFormulas is not defined");
+}
